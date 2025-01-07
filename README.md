@@ -1,3 +1,9 @@
+# [Ecole du Web](https://www.ecole-du-web.net/) - Nextjs - Axoria Project
+
+Project of the course "Next.js"
+
+## Information
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
