@@ -1,27 +1,23 @@
-import Image from "next/image";
+//import Image from "next/image";
+import getPost from "@/lib/serverMethods/blog/postMethods";
+import Link from "next/link";
 
-export default function Article({params: {slug}} : {params: {slug: string}}) {
-  const data = {
-    title: "title", 
-    imageUrl: "imageUrl", 
-    tags: ["tag1", "tag2"], 
-    post: "post",
-    author: "author"
-  }
-  console.log(slug)
+export default async function Article({params: { slug }} : {params: {slug: string}}) {
+  const post = await getPost(slug);
+  
   return (
-    <main className="flex-grow bg-neutral-100">
-      <h1 className="text-2xl">{data.title}</h1>
-      <p>
+    <main className="flex-grow bg-neutral-100 pt-[70px]">
+      <h1 className="text-2xl">{post.title}</h1>
+      <p className="flex gap-3">
         By
-        <span className="underline">{data.author}</span>
+        <Link href={`/author/${post.author}`} className="underline">{post.author}</Link>
         {
-          data.tags.map((tag, index) => (
-            <span key={index} className="underline"># {tag}</span>
+          post.tags.map((tag: string, index: number) => (
+            <Link key={index} href={`/categories/${post.slug}`} className="underline"># {tag}</Link>
           ))
         }
       </p>
-      <Image 
+      {/* <Image 
         src={data.imageUrl} 
         alt={data.title} 
         sizes="
@@ -31,8 +27,8 @@ export default function Article({params: {slug}} : {params: {slug: string}}) {
         (max-width: 1120px) 1120px,
         1120px
         "
-      />
-      <p>{data.post}</p>
+      /> */}
+      <p>{post.markdownArticle}</p>
     </main>
   )
 }

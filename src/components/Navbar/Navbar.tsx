@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useRef } from "react";
-import useDimension from "@/lib/useDimension";
+import useDimension from "@/lib/hooks/useDimension";
 
 export default function Navbar({custom}: {custom: string;}) {
   const dimension = useDimension();

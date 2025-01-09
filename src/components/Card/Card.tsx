@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import React from 'react'
 import { formatDate } from '@/lib/formatDate';
-import useDimension from '@/lib/useDimension';
+import useDimension from '@/lib/hooks/useDimension';
 import { useRouter } from 'next/navigation';
 
 export default function Card({datas}: CardProps) {

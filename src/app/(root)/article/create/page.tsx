@@ -3,8 +3,10 @@
 import Field from "@/components/Field/Field";
 import Link from "next/link";
 import { useState } from "react";
+import { addPost } from "@/lib/serverActions/blog/postServerActions";
 
 export default function AddAnArticle() {
+
   const [dataForm, setDataForm] = useState<DataFormType>({ 
     title: "", 
     file: null, 
@@ -52,6 +54,7 @@ export default function AddAnArticle() {
 
     const formData = new FormData(e.target as HTMLFormElement);
     formData.delete('tag');
+    formData.delete('file');
 
     formData.set('tags_count', dataForm.tags.length.toString());
 
@@ -63,19 +66,13 @@ export default function AddAnArticle() {
       console.log({key: key, value: value});
     }
 
-    const createdProductResponse = await fetch(`/api/posts`, {
-      method: "POST",
-      body: formData
-    });
+    const result = await addPost(formData);
 
-    const createdProduct = await createdProductResponse.json();
-
-    if(createdProduct.data) {
+    if(result && result.success) {
       setMessage({type: "success", text:"Post created"})
-    } else if (createdProduct.error) {
+    } else {
       setMessage({type: "error", text: "Error creating post"})
     }
-
   }
 
   return (
@@ -84,7 +81,7 @@ export default function AddAnArticle() {
         <h1 className='text-2xl font-semibold'>Write an article 📄</h1>
         {
          (message && (message.type === "success" || message.type === "error")) && 
-          <p className={`text-${message.type === "success" ? "green" : "red"}-600 drop-shadow-lg`}>
+          <p className={`font-bold ${message.type === "success" ? "text-green-600" : "text-red-600"} drop-shadow-lg`}>
             {message.text}
           </p>
         }
@@ -164,8 +161,8 @@ export default function AddAnArticle() {
             <Link target={"_blank"} href="https://www.markdownguide.org/cheat-sheet/" className="text-blue-600 mb-5 inline-block">Ho to use markdown syntax ?</Link>
             <Field 
               type={"area"}
-              name={"post"}
-              forId={"post"}
+              name={"markdownArticle"}
+              forId={"markdownArticle"}
               value={dataForm.post}
               onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setDataForm({...dataForm, post: e.target.value})}
               customField="border-2 rounded-md min-h-[200px] focus:outline-slate-400 p-5"
